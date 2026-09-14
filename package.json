@@ -1,0 +1,47 @@
+{
+  "name": "abandoned-checkout-recovery",
+  "private": true,
+  "scripts": {
+    "build": "remix vite:build",
+    "dev": "shopify app dev",
+    "config:link": "shopify app config link",
+    "generate": "shopify app generate",
+    "deploy": "shopify app deploy",
+    "config:use": "shopify app config use",
+    "env": "shopify app env",
+    "start": "remix-serve ./build/server/index.js",
+    "docker-start": "npm run setup && npm run start",
+    "setup": "prisma generate && prisma migrate deploy",
+    "reminders": "node scripts/send-reminders.js",
+    "reminders:watch": "node scripts/watch-reminders.js"
+  },
+  "type": "module",
+  "engines": {
+    "node": "^18.20 || ^20.10 || >=21.0.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.16.1",
+    "@remix-run/node": "^2.10.2",
+    "@remix-run/react": "^2.10.2",
+    "@remix-run/serve": "^2.10.2",
+    "@shopify/app-bridge-react": "^4.1.5",
+    "@shopify/polaris": "^12.27.0",
+    "@shopify/shopify-app-remix": "^3.4.0",
+    "@shopify/shopify-app-session-storage-prisma": "^5.1.5",
+    "isbot": "^5.1.9",
+    "nodemailer": "^6.9.14",
+    "node-cron": "^3.0.3",
+    "node-fetch": "^3.3.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^2.10.2",
+    "@types/node": "^20.14.10",
+    "@types/react": "^18.2.31",
+    "@types/react-dom": "^18.2.14",
+    "prisma": "^5.16.1",
+    "vite": "^5.2.11",
+    "vite-tsconfig-paths": "^4.3.2"
+  }
+}

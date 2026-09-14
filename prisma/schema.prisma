@@ -1,0 +1,70 @@
+// This is your Prisma schema file.
+// Docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // SQLite for local testing (switch to "postgresql" or "mysql" for production deployment)
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Required by Shopify's session storage adapter — do not remove.
+model Session {
+  id            String    @id
+  shop          String
+  state         String
+  isOnline      Boolean   @default(false)
+  scope         String?
+  expires       DateTime?
+  accessToken   String
+  userId        BigInt?
+  firstName     String?
+  lastName      String?
+  email         String?
+  accountOwner  Boolean   @default(false)
+  locale        String?
+  collaborator  Boolean?  @default(false)
+  emailVerified Boolean?  @default(false)
+}
+
+// One row per checkout Shopify tells us about. Updated in place until it
+// either converts to an order (status = "recovered") or is abandoned long
+// enough to work through the contact steps below.
+model AbandonedCheckout {
+  id              String    @id @default(cuid())
+  shop            String
+  checkoutId      String // Shopify checkout id (numeric, stored as string)
+  checkoutToken   String? // "token" field from the webhook payload
+  cartToken       String? // used to match against orders/create later
+  customerId      String?
+  firstName       String?
+  lastName        String?
+  email           String?
+  phone           String?
+  totalPrice      String?
+  currency        String?
+  abandonedUrl    String? // recovery link Shopify generates
+  lineItemsJson   String? // JSON-encoded snapshot of the cart contents
+
+  // Outreach + call-center tracking
+  status          String    @default("pending")
+  // pending -> sms_sent -> (email_sent) -> called -> recovered | lost
+  smsSentAt       DateTime?
+  smsError        String?
+  emailSentAt     DateTime?
+  emailError      String?
+  calledAt        DateTime?
+  callOutcome     String? // e.g. "no_answer", "not_interested", "will_reorder", "recovered"
+  callNotes       String?
+  recoveredAt     DateTime?
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([shop, checkoutId])
+  @@index([shop, status])
+  @@index([cartToken])
+}
