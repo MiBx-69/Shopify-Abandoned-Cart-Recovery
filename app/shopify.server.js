@@ -6,9 +6,9 @@ import {
   shopifyApp,
 } from "@shopify/shopify-app-remix/server";
 import { PrismaSessionStorage } from "@shopify/shopify-app-session-storage-prisma";
-import prisma from "./db.server";
-import { handleCheckoutWebhook } from "./services/recovery.server";
-import { handleOrderCreated } from "./services/recovery.server";
+import prisma from "./db.server.js";
+import { handleCheckoutWebhook } from "./services/recovery.server.js";
+import { handleOrderCreated } from "./services/recovery.server.js";
 
 const shopify = shopifyApp({
   apiKey: process.env.SHOPIFY_API_KEY,

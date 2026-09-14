@@ -13,7 +13,10 @@
     "docker-start": "npm run setup && npm run start",
     "setup": "prisma generate && prisma migrate deploy",
     "reminders": "node scripts/send-reminders.js",
-    "reminders:watch": "node scripts/watch-reminders.js"
+    "reminders:watch": "node scripts/watch-reminders.js",
+    "test:flow": "node scripts/test-recovery-flow.js",
+    "test:seed": "node scripts/seed-test-data.js",
+    "dev:local": "vite"
   },
   "type": "module",
   "engines": {

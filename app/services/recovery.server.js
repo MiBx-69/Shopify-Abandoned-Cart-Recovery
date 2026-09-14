@@ -1,6 +1,6 @@
-import prisma from "../db.server";
-import { sendSms, buildRecoverySmsMessage } from "./alphaSms.server";
-import { sendRecoveryEmail } from "./email.server";
+import prisma from "../db.server.js";
+import { sendSms, buildRecoverySmsMessage } from "./alphaSms.server.js";
+import { sendRecoveryEmail } from "./email.server.js";
 
 // How long to wait after a checkout is last updated before we consider it
 // "abandoned enough" to text, and then to email. Tune to taste.
