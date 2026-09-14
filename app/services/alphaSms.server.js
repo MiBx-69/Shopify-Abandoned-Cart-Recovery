@@ -22,10 +22,9 @@ const ALPHA_SMS_SENDER_ID = process.env.ALPHA_SMS_SENDER_ID;
  * @returns {Promise<{ success: boolean, raw: any }>}
  */
 export async function sendSms(to, message) {
-  if (!ALPHA_SMS_API_KEY) {
-    throw new Error(
-      "ALPHA_SMS_API_KEY is not set. Add it to your .env before sending SMS.",
-    );
+  if (!ALPHA_SMS_API_KEY || ALPHA_SMS_API_KEY === "your_alpha_sms_api_key" || ALPHA_SMS_API_KEY === "test") {
+    console.log(`[SIMULATED SMS] To: ${to} | Message: ${message}`);
+    return { success: true, simulated: true, raw: { status: "simulated", to, message } };
   }
   if (!to) {
     throw new Error("Cannot send SMS: customer has no phone number on file.");
